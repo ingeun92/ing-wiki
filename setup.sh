@@ -16,7 +16,7 @@ echo
 
 # --- 1. Initialize local data files from templates ---
 
-echo "[1/2] Initializing wiki data files..."
+echo "[1/3] Initializing wiki data files..."
 for file in index log; do
     if [ ! -f "$WIKI_DIR/$file.md" ]; then
         cp "$WIKI_DIR/$file.template.md" "$WIKI_DIR/$file.md"
