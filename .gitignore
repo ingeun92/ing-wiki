@@ -1,5 +1,8 @@
-# Sensitive source documents
-raw/
+# Sensitive source documents (keep directory structure via .gitkeep)
+raw/*
+!raw/assets/
+raw/assets/*
+!raw/assets/.gitkeep
 
 # Obsidian workspace (machine-specific)
 .obsidian/workspace.json
