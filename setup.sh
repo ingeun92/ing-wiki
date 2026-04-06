@@ -27,9 +27,96 @@ for file in index log; do
 done
 echo
 
-# --- 2. Install global rules for LLM agents ---
+# --- 2. Inject wiki reference into project root CLAUDE.md ---
 
-echo "[2/2] Installing agent rules..."
+echo "[2/3] Setting up project root CLAUDE.md..."
+
+# Detect if this is a project wiki (has parent with .git) vs global wiki
+PROJECT_ROOT="$(dirname "$WIKI_DIR")"
+
+inject_wiki_section() {
+    local target="$1" section="$2" label="$3"
+
+    if [ ! -f "$target" ]; then
+        printf '%s\n' "$section" > "$target"
+        echo "  ✓ Created $target with wiki auto-capture reference"
+    elif ! grep -q "^## Wiki" "$target"; then
+        printf '\n\n%s\n' "$section" >> "$target"
+        echo "  ✓ Appended wiki section to $target"
+    else
+        echo "  · $target already has ## Wiki section, skipping"
+    fi
+}
+
+if [ -d "$PROJECT_ROOT/.git" ] || [ -f "$PROJECT_ROOT/.git" ]; then
+    # --- Project wiki: inject into {project}/CLAUDE.md ---
+    echo "  Detected: project wiki"
+
+    PROJECT_SECTION='## Wiki
+
+Project wiki at `wiki/`. Read `wiki/CLAUDE.md` for the full schema.
+
+### Auto-capture
+
+During any conversation, proactively identify knowledge worth persisting to the project wiki:
+
+- New concepts, entities, or tools encountered during research/work
+- Architectural decisions and their rationale
+- Non-obvious findings from debugging or investigation
+- Cross-project patterns and reusable insights
+
+When detected, suggest briefly: "Save to wiki? — [one-line summary]"
+Only write to wiki upon user approval. Skip ephemeral details — capture only knowledge that compounds.'
+
+    inject_wiki_section "$PROJECT_ROOT/CLAUDE.md" "$PROJECT_SECTION" "project"
+else
+    # --- Global wiki: inject into ~/.claude/CLAUDE.md ---
+    echo "  Detected: global wiki"
+
+    GLOBAL_SECTION='## Wiki
+
+Global wiki at `~/wiki/`. Read `~/wiki/CLAUDE.md` for the full schema.
+
+### Auto-capture
+
+During any conversation, proactively identify knowledge worth persisting:
+
+- New concepts, entities, or tools encountered during research/work
+- Architectural decisions and their rationale
+- Non-obvious findings from debugging or investigation
+- Cross-project patterns and reusable insights
+
+When detected, suggest briefly: "Save to wiki? — [one-line summary]"
+Only write to wiki upon user approval. Skip ephemeral details — capture only knowledge that compounds.
+
+### Routing
+
+- "add to wiki" → project wiki first (if `{cwd}/wiki/` exists), else global (`~/wiki/`)
+- "global wiki" → `~/wiki/` explicitly
+- "project wiki" → `{cwd}/wiki/` explicitly'
+
+    GLOBAL_CLAUDE="$HOME/.claude/CLAUDE.md"
+    if [ ! -d "$HOME/.claude" ]; then
+        echo "  · ~/.claude not found, skipping global CLAUDE.md"
+    else
+        if [ "$AUTO_YES" = true ]; then
+            inject_wiki_section "$GLOBAL_CLAUDE" "$GLOBAL_SECTION" "global"
+        else
+            read -p "  Add wiki section to $GLOBAL_CLAUDE? [Y/n] " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+                inject_wiki_section "$GLOBAL_CLAUDE" "$GLOBAL_SECTION" "global"
+            else
+                echo "  · Skipped global CLAUDE.md"
+            fi
+        fi
+    fi
+fi
+echo
+
+# --- 3. Install global rules for LLM agents ---
+
+echo "[3/3] Installing agent rules..."
 
 install_rule() {
     local name="$1" dir="$2"
