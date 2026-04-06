@@ -43,7 +43,7 @@ wiki/
 
 ## Quick Start
 
-### Setup
+### Global Wiki (personal knowledge base)
 
 ```bash
 git clone https://github.com/ingeun92/ing-wiki.git ~/wiki
@@ -51,17 +51,29 @@ cd ~/wiki
 ./setup.sh
 ```
 
-The setup script will:
+### Project Wiki (per-project knowledge base)
+
+```bash
+cd my-project
+git clone https://github.com/ingeun92/ing-wiki.git ./wiki
+cd wiki
+./setup.sh
+```
+
+> **Note**: If the global wiki is already set up, you can skip `setup.sh` and just tell your LLM agent `"Create a wiki for this project"` — it will scaffold the `wiki/` directory from the schema automatically. See [Project Wiki Setup](#project-wiki-setup) for details.
+
+### What `setup.sh` does
+
 1. Create `index.md` and `log.md` from templates
 2. Install the global agent rule (`setup/wiki.md` → `~/.claude/rules/wiki.md`)
 
-Then open `~/wiki/` as an Obsidian vault.
+Then open the wiki directory as an Obsidian vault.
 
 <details>
 <summary>Manual setup (without script)</summary>
 
 ```bash
-git clone https://github.com/ingeun92/ing-wiki.git ~/wiki
+git clone https://github.com/ingeun92/ing-wiki.git ~/wiki  # or ./wiki for project
 cd ~/wiki
 cp index.template.md index.md
 cp log.template.md log.md
