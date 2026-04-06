@@ -20,10 +20,8 @@ synthesis/*
 index.md
 log.md
 
-# Obsidian workspace (machine-specific)
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-.obsidian/.obsidian-*.json
+# Obsidian (machine-specific)
+.obsidian/
 
 # Obsidian trash
 .trash/

@@ -2,6 +2,13 @@
 set -euo pipefail
 
 WIKI_DIR="$(cd "$(dirname "$0")" && pwd)"
+AUTO_YES=false
+
+for arg in "$@"; do
+    case "$arg" in
+        -y|--yes) AUTO_YES=true ;;
+    esac
+done
 
 echo "=== LLM Wiki Setup ==="
 echo "Wiki directory: $WIKI_DIR"
@@ -37,11 +44,15 @@ install_rule() {
     mkdir -p "$dir"
 
     if [ -f "$dir/wiki.md" ]; then
-        echo "  · $name rule already exists at $dir/wiki.md"
-        read -p "    Overwrite? [y/N] " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            return 0
+        if [ "$AUTO_YES" = true ]; then
+            echo "  · Overwriting existing $name rule"
+        else
+            echo "  · $name rule already exists at $dir/wiki.md"
+            read -p "    Overwrite? [y/N] " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                return 0
+            fi
         fi
     fi
 

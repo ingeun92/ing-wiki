@@ -14,7 +14,7 @@ Inspired by [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpath
 
 - **Incremental knowledge building** — each source enriches the entire wiki, not just one page
 - **Obsidian-compatible** — `[[wikilinks]]`, YAML frontmatter, graph view, backlinks
-- **Three core operations** — Ingest (add sources), Query (ask questions), Lint (health check)
+- **Four core operations** — Ingest (add sources), Query (ask questions), Lint (health check), Auto-capture (passive)
 - **Global + project wikis** — personal knowledge base with per-project extensions
 - **Cross-platform** — works with Claude Code (`CLAUDE.md`), Codex, Gemini CLI (`AGENTS.md`)
 - **Git-managed** — full version history, branching, multi-device sync
@@ -23,15 +23,22 @@ Inspired by [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpath
 
 ```
 wiki/
-├── CLAUDE.md / AGENTS.md   # Wiki schema (LLM instructions)
-├── index.md                # Content catalog
-├── log.md                  # Chronological operations log
-├── raw/                    # Immutable source documents (.gitignored)
-│   └── assets/             # Images, PDFs
-├── entities/               # People, organizations, tools
-├── concepts/               # Ideas, techniques, patterns
-├── sources/                # Source summaries
-└── synthesis/              # Comparisons, analyses
+├── CLAUDE.md / AGENTS.md     # Wiki schema (LLM instructions)
+├── index.template.md         # Index template (tracked)
+├── log.template.md           # Log template (tracked)
+├── setup.sh                  # One-click setup script
+├── setup/
+│   └── wiki.md               # Global agent rule (installed by setup.sh)
+├── raw/                      # Immutable source documents (.gitignored)
+│   └── assets/               # Images, PDFs
+├── entities/                 # People, organizations, tools
+├── concepts/                 # Ideas, techniques, patterns
+├── sources/                  # Source summaries
+└── synthesis/                # Comparisons, analyses
+
+# After setup.sh, these local-only files are created (.gitignored):
+# ├── index.md                # Content catalog
+# └── log.md                  # Chronological operations log
 ```
 
 ## Quick Start
