@@ -1,0 +1,13 @@
+# Sensitive source documents
+raw/
+
+# Obsidian workspace (machine-specific)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/.obsidian-*.json
+
+# Obsidian trash
+.trash/
+
+# macOS
+.DS_Store
