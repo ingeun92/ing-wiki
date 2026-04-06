@@ -36,41 +36,58 @@ wiki/
 
 ## Quick Start
 
-### Global Wiki Setup
+### Setup
 
 ```bash
-# Clone the template
 git clone https://github.com/ingeun92/ing-wiki.git ~/wiki
 cd ~/wiki
+./setup.sh
+```
 
-# Initialize your local wiki data from templates
+The setup script will:
+1. Create `index.md` and `log.md` from templates
+2. Install the global agent rule (`setup/wiki.md` → `~/.claude/rules/wiki.md`)
+
+Then open `~/wiki/` as an Obsidian vault.
+
+<details>
+<summary>Manual setup (without script)</summary>
+
+```bash
+git clone https://github.com/ingeun92/ing-wiki.git ~/wiki
+cd ~/wiki
 cp index.template.md index.md
 cp log.template.md log.md
 
-# Create the global rule for your LLM agent
-# For Claude Code: copy wiki.md to ~/.claude/rules/
-# This enables wiki access from any project
+# Claude Code
+mkdir -p ~/.claude/rules
+cp setup/wiki.md ~/.claude/rules/wiki.md
 ```
 
-Then open `~/wiki/` as an Obsidian vault for browsing.
+</details>
 
 ### Pulling Template Updates
 
-Your wiki content (`entities/`, `concepts/`, `sources/`, `synthesis/`, `index.md`, `log.md`) is gitignored — it stays local and is never pushed to the remote. When the template gets updates:
+Wiki content (`entities/`, `concepts/`, `sources/`, `synthesis/`, `index.md`, `log.md`) is gitignored — it stays local and is never pushed to the remote:
 
 ```bash
-git pull origin main
-# Your local wiki data is untouched — only template files update
+git pull origin main        # template files update, your data is untouched
+./setup.sh                  # re-run to pick up any new rule changes
 ```
 
-### Usage (Global)
+### Usage
 
-Tell your LLM agent:
+The wiki supports both explicit commands and **auto-capture**:
 
 ```
+# Explicit
 "Ingest this article into the wiki"        → creates source summary + updates related pages
 "What does the wiki say about X?"           → searches index, reads pages, synthesizes answer
 "Run a wiki lint"                           → checks for contradictions, orphans, stale content
+
+# Auto-capture (via global rule)
+# During any conversation, the agent proactively suggests saving
+# valuable knowledge to the wiki — no manual command needed.
 ```
 
 ### Project Wiki Setup

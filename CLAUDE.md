@@ -29,6 +29,8 @@ Extra fields: entity→`aliases,url,related` | source→`author,date,url,format`
 
 **Query**: Read index.md → find relevant pages → synthesize answer with `[[citations]]` → optionally save to `synthesis/` → log
 
+**Auto-capture**: During any conversation, proactively identify knowledge worth persisting — new concepts, entities, architectural decisions, non-obvious findings. Suggest briefly: "Save to wiki? — [one-line summary]". Only write upon user approval. Skip ephemeral details; capture only knowledge that compounds over time.
+
 **Lint**: Check contradictions, stale content, orphans, missing pages, missing cross-refs, data gaps → log
 
 ## Project Wiki
