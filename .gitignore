@@ -1,8 +1,24 @@
-# Sensitive source documents (keep directory structure via .gitkeep)
+# User-generated wiki content (keep directory structure via .gitkeep)
 raw/*
 !raw/assets/
 raw/assets/*
 !raw/assets/.gitkeep
+
+entities/*
+!entities/.gitkeep
+
+concepts/*
+!concepts/.gitkeep
+
+sources/*
+!sources/.gitkeep
+
+synthesis/*
+!synthesis/.gitkeep
+
+# User data files (initialized from *.template.md)
+index.md
+log.md
 
 # Obsidian workspace (machine-specific)
 .obsidian/workspace.json

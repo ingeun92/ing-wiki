@@ -39,8 +39,13 @@ wiki/
 ### Global Wiki Setup
 
 ```bash
-# Clone
+# Clone the template
 git clone https://github.com/ingeun92/ing-wiki.git ~/wiki
+cd ~/wiki
+
+# Initialize your local wiki data from templates
+cp index.template.md index.md
+cp log.template.md log.md
 
 # Create the global rule for your LLM agent
 # For Claude Code: copy wiki.md to ~/.claude/rules/
@@ -48,6 +53,15 @@ git clone https://github.com/ingeun92/ing-wiki.git ~/wiki
 ```
 
 Then open `~/wiki/` as an Obsidian vault for browsing.
+
+### Pulling Template Updates
+
+Your wiki content (`entities/`, `concepts/`, `sources/`, `synthesis/`, `index.md`, `log.md`) is gitignored — it stays local and is never pushed to the remote. When the template gets updates:
+
+```bash
+git pull origin main
+# Your local wiki data is untouched — only template files update
+```
 
 ### Usage (Global)
 
@@ -134,13 +148,11 @@ Open `~/wiki/` (or `project/wiki/`) as an Obsidian vault:
 
 ## Multi-Device Sync
 
-```bash
-# This is a git repo — sync across devices
-git pull
-git add -A && git commit -m "wiki updates" && git push
-```
+This repo is a **template** — wiki content is gitignored and stays local. To sync your wiki data across devices, use a separate mechanism:
 
-> `raw/` is `.gitignored` by default to protect sensitive source documents. Only wiki-generated pages are synced.
+- **Obsidian Sync** — built-in Obsidian syncing
+- **Syncthing / rsync** — sync the content directories directly
+- **Separate private repo** — track your data in a private repo alongside the template
 
 ## License
 
