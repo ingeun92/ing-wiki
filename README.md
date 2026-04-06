@@ -8,7 +8,7 @@
 
 </div>
 
-Inspired by [Andrej Karpathy's LLM Wiki pattern](https://github.com/karpathy/llm-wiki). Instead of re-deriving knowledge from scratch on every query (like RAG), the LLM incrementally builds a structured, interlinked wiki — summarizing sources, cross-referencing entities, and maintaining consistency over time.
+Inspired by [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Instead of re-deriving knowledge from scratch on every query (like RAG), the LLM incrementally builds a structured, interlinked wiki — summarizing sources, cross-referencing entities, and maintaining consistency over time.
 
 ## Features
 
