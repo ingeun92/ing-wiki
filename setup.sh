@@ -66,7 +66,14 @@ During any conversation, proactively identify knowledge worth persisting to the 
 - Cross-project patterns and reusable insights
 
 When detected, suggest briefly: "Save to wiki? — [one-line summary]"
-Only write to wiki upon user approval. Skip ephemeral details — capture only knowledge that compounds.'
+Only write to wiki upon user approval. Skip ephemeral details — capture only knowledge that compounds.
+
+### Auto-reference
+
+Before diving into work, check the wiki when:
+
+- Revisiting a topic that was explored in a previous session
+- Debugging an issue or making an architectural decision that may have prior context'
 
     inject_wiki_section "$PROJECT_ROOT/CLAUDE.md" "$PROJECT_SECTION" "project"
 else
@@ -88,6 +95,13 @@ During any conversation, proactively identify knowledge worth persisting:
 
 When detected, suggest briefly: "Save to wiki? — [one-line summary]"
 Only write to wiki upon user approval. Skip ephemeral details — capture only knowledge that compounds.
+
+### Auto-reference
+
+Before diving into work, check the wiki when:
+
+- Revisiting a topic that was explored in a previous session
+- Debugging an issue or making an architectural decision that may have prior context
 
 ### Routing
 
