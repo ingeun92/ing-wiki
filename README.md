@@ -16,6 +16,7 @@ Inspired by [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpath
 - **Obsidian-compatible** — `[[wikilinks]]`, YAML frontmatter, graph view, backlinks
 - **Four core operations** — Ingest (add sources), Query (ask questions), Lint (health check), Auto-capture (passive)
 - **Global + project wikis** — personal knowledge base with per-project extensions
+- **OMC compatible** — 2-tier mode with [oh-my-claudecode](https://github.com/nicobailey/oh-my-claudecode): OMC wiki (project) → global wiki (distillation)
 - **Cross-platform** — works with Claude Code (`CLAUDE.md`), Codex, Gemini CLI (`AGENTS.md`)
 - **Git-managed** — full version history, branching, multi-device sync
 
@@ -65,7 +66,10 @@ cd wiki
 ### What `setup.sh` does
 
 1. Create `index.md` and `log.md` from templates
-2. Install the global agent rule (`setup/wiki.md` → `~/.claude/rules/wiki.md`)
+2. Detect environment and inject `## Wiki` section into `~/.claude/CLAUDE.md`:
+   - **OMC detected** → 2-tier config (OMC wiki → global wiki auto-distillation)
+   - **No OMC** → standard config (direct global wiki with routing)
+3. Install the global agent rule (`setup/wiki.md` → `~/.claude/rules/wiki.md`)
 
 Then open the wiki directory as an Obsidian vault.
 
@@ -151,6 +155,22 @@ my-project/
 | **Promote** | Project → Global | Elevate project-specific knowledge to the global wiki |
 | **Import** | Global → Project | Bring global knowledge into project context |
 | **Query** | Either | Search and synthesize from either wiki |
+
+### OMC Integration (oh-my-claudecode)
+
+If you use [oh-my-claudecode](https://github.com/nicobailey/oh-my-claudecode), the wiki operates in **2-tier mode**:
+
+```
+Session work → OMC wiki (.omc/wiki/)    Auto-capture, MCP tools, fast writes
+                    ↓ auto-distill (session end)
+Long-term   → Global wiki (~/wiki/)     Obsidian, structured taxonomy, permanent
+```
+
+- **Auto-capture**: saves to OMC wiki without confirmation (architecture, patterns, findings)
+- **Auto-distill**: on session end, promotes valuable pages (architecture/decision/pattern) to global wiki
+- **Routing**: `"add to wiki"` → OMC wiki | `"global wiki"` → `~/wiki/` | `"promote"` → OMC → global
+
+`setup.sh` auto-detects OMC (via `OMC:START` marker in `~/.claude/CLAUDE.md`) and injects the appropriate config.
 
 ## Page Format
 
